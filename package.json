@@ -42,6 +42,6 @@
   },
   "peerDependencies": {
     "graphql": "^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0",
-    "graphql-middleware": "^2.0.0"
+    "graphql-middleware": "^3.0.0"
   }
 }
