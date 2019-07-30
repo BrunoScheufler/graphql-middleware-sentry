@@ -1,6 +1,9 @@
 import * as Sentry from '@sentry/node'
 
 import { IMiddlewareFunction } from 'graphql-middleware/dist/types'
+class ExtendedError extends Error {
+  errorId?: string
+}
 
 export type ExceptionScope<Context> = (
   scope: Sentry.Scope,
@@ -11,11 +14,12 @@ export type ExceptionScope<Context> = (
 
 // Options for graphql-middleware-sentry
 export interface Options<Context> {
-  sentryInstance?: any
+  sentryInstance?: typeof Sentry
   config?: Sentry.NodeOptions
   withScope?: ExceptionScope<Context>
   captureReturnedErrors?: boolean
   forwardErrors?: boolean
+  attachEventId?: boolean
   reportError?: (res: Error | any) => boolean
 }
 
@@ -27,6 +31,7 @@ export const sentry = <Context>({
   withScope,
   captureReturnedErrors = false,
   forwardErrors = false,
+  attachEventId = false,
   reportError,
 }: Options<Context>): IMiddlewareFunction => {
   // Check if either sentryInstance or config.dsn is present
@@ -48,12 +53,26 @@ export const sentry = <Context>({
       const res = await resolve(parent, args, ctx, info)
 
       if (captureReturnedErrors && res instanceof Error) {
-        captureException(sentryInstance, res, ctx, withScope, reportError)
+        captureException(
+          sentryInstance,
+          res,
+          ctx,
+          withScope,
+          attachEventId,
+          reportError,
+        )
       }
 
       return res
     } catch (error) {
-      captureException(sentryInstance, error, ctx, withScope, reportError)
+      captureException(
+        sentryInstance,
+        error,
+        ctx,
+        withScope,
+        attachEventId,
+        reportError,
+      )
 
       // Forward error
       if (forwardErrors) {
@@ -64,16 +83,18 @@ export const sentry = <Context>({
 }
 
 function captureException<Context>(
-  sentryInstance,
-  error: Error,
+  sentryInstance: typeof Sentry,
+  error: ExtendedError,
   ctx: Context,
   withScope: ExceptionScope<Context>,
+  attachEventId: boolean,
   reportError?: (res) => boolean,
 ) {
   if ((reportError && reportError(error)) || reportError === undefined) {
     sentryInstance.withScope(scope => {
       withScope(scope, error, ctx)
-      sentryInstance.captureException(error)
+      let eventId = sentryInstance.captureException(error)
+      if (attachEventId) error.errorId = eventId
     })
   }
 }

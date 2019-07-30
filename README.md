@@ -137,6 +137,7 @@ const sentryMiddleware = sentry({
 | `withScope`             | false    | Function to modify the [Sentry context](https://docs.sentry.io/enriching-error-data/context/?platform=node) to send with the captured error.                               |
 | `captureReturnedErrors` | false    | Capture errors returned from other middlewares, e.g., `graphql-shield` [returns errors](https://github.com/maticzav/graphql-shield#custom-errors) from rules and resolvers |
 | `forwardErrors`         | false    | Should middleware forward errors to the client or block them.                                                                                                              |
+| `attachEventId` | false    | Attach Sentry event id to the error object on 'errorId' |
 | `reportError` | false | Function that passes `res` as the parameter and accepts a boolean callback for whether or not the error should be captured
 
 #### Note
