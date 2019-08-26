@@ -34,7 +34,7 @@
     "@types/lodash": "4.14.137",
     "@types/node": "12.7.2",
     "graphql": "14.5.3",
-    "graphql-middleware": "4.0.0",
+    "graphql-middleware": "4.0.1",
     "prettier": "1.18.2",
     "prettier-check": "2.0.0",
     "rimraf": "3.0.0",
