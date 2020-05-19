@@ -32,7 +32,7 @@
   "devDependencies": {
     "@sentry/node": "5.15.5",
     "@types/lodash": "4.14.152",
-    "@types/node": "13.13.7",
+    "@types/node": "13.13.8",
     "graphql": "14.6.0",
     "graphql-middleware": "4.0.2",
     "prettier": "1.19.1",
