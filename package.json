@@ -33,7 +33,7 @@
     "@sentry/node": "5.19.0",
     "@types/lodash": "4.14.157",
     "@types/node": "13.13.12",
-    "graphql": "15.2.0",
+    "graphql": "15.3.0",
     "graphql-middleware": "4.0.2",
     "prettier": "1.19.1",
     "prettier-check": "2.0.0",
