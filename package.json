@@ -30,7 +30,7 @@
     }
   ],
   "devDependencies": {
-    "@sentry/node": "5.19.0",
+    "@sentry/node": "5.19.1",
     "@types/lodash": "4.14.157",
     "@types/node": "13.13.13",
     "graphql": "15.3.0",
